@@ -1,24 +1,25 @@
 provider "aws" {
-  region = "us-east-2"
+  region = "us-west-2"
 }
 
 data "aws_availability_zones" "available" {}
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "2.77.0"
-
-  name                 = "education"
-  cidr                 = "10.0.0.0/16"
-  azs                  = data.aws_availability_zones.available.names
-  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-}
+#module "vpc" {
+#  source  = "terraform-aws-modules/vpc/aws"
+#  version = "2.77.0"
+#
+#  name                 = "education"
+#  cidr                 = "10.0.0.0/16"
+#  azs                  = data.aws_availability_zones.available.names
+#  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+#  enable_dns_hostnames = true
+#  enable_dns_support   = true
+#}
 
 resource "aws_db_subnet_group" "education" {
   name       = "education"
-  subnet_ids = module.vpc.public_subnets
+#  subnet_ids = module.vpc.public_subnets
+  subnet_ids = ["subnet-001dfaa2fd20759cc"]
 
   tags = {
     Name = "Education"
@@ -27,7 +28,8 @@ resource "aws_db_subnet_group" "education" {
 
 resource "aws_security_group" "rds" {
   name   = "education_rds"
-  vpc_id = module.vpc.vpc_id
+#  vpc_id = module.vpc.vpc_id
+  vpc_id = "vpc-03c6fb17e2731fe4a"
 
   ingress {
     from_port   = 5432
