@@ -19,7 +19,7 @@ data "aws_availability_zones" "available" {}
 resource "aws_db_subnet_group" "education" {
   name       = "education"
 #  subnet_ids = module.vpc.public_subnets
-  subnet_ids = ["subnet-001dfaa2fd20759cc"]
+  subnet_ids = ["subnet-001dfaa2fd20759cc", "subnet-0c43f4bda8e414556"]
 
   tags = {
     Name = "Education"
